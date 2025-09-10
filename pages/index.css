@@ -1,0 +1,13 @@
+@import url(../vendor/normalize.css);
+@import url(../blocks/page.css);
+@import url(../blocks/header.css);
+@import url(../blocks/user.css);
+@import url(../blocks/cards.css);
+@import url(../blocks/footer.css);
+
+* {
+  background-color: black;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}

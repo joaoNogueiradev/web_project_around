@@ -1,0 +1,53 @@
+.user {
+  margin-top: 40px;
+  background-color: blueviolet;
+  height: 120px;
+  display: flex;
+  align-items: center;
+}
+
+.user__pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 100%;
+  background-color: blanchedalmond;
+}
+
+.user__text {
+  margin-left: 30px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 0;
+  color: white;
+}
+
+.user__name {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin: 0;
+}
+
+.user__name-paragraph {
+  font-size: 42px;
+  margin: 0;
+}
+
+.user__name-edit {
+  border: 1px solid white;
+  width: 24px;
+  height: 24px;
+}
+
+.user__type-paragraph {
+  margin: 0;
+  font-size: 18px;
+}
+
+.user__add-button {
+  width: 150px;
+  height: 50px;
+  margin-left: auto;
+}
