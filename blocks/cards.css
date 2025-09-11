@@ -5,18 +5,35 @@
   gap: 20px;
 }
 .card {
-  width: 100%;
+  width: 282px;
+  height: 361px;
   border-radius: 10px;
   background-color: white;
   overflow: hidden;
-  color: white;
   text-align: center;
 }
 
 .card__image {
   width: 100%;
-  /* display: block; */
   object-fit: cover;
+}
+
+.card__text {
+  color: black;
+  display: flex;
+  width: 100%;
+  gap: 15px;
+  justify-content: space-between;
+  padding: 20px 21px 31px 21px;
+  align-items: center;
+}
+
+.card__text-paragraph {
+  font-size: 24px;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .card__text-image {
