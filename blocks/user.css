@@ -28,8 +28,6 @@
 .user__name {
   display: flex;
   gap: 10px;
-  justify-content: center;
-  align-items: center;
 }
 
 .user__name-paragraph {
@@ -40,7 +38,16 @@
 .user__name-edit {
   width: 18px;
   height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
   border: 1px solid white;
+}
+
+.user__name-edit-image {
+  width: 7.5px;
+  height: 7.5px;
 }
 
 .user__type-paragraph {
@@ -52,7 +59,8 @@
   margin-top: 36px;
   width: 100%;
   padding: 17px 0;
-  color: white;
+  background-color: black;
+  /* color: white; */
   text-align: center;
   border: 1px solid white;
 }
