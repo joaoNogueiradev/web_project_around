@@ -1,14 +1,23 @@
 .cards {
-  margin-top: 30px;
+  margin-top: 36px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  row-gap: 20px;
-  column-gap: 18px;
-  background-color: green;
+  padding: 0 19px;
+  gap: 20px;
 }
 .card {
-  width: 282px;
-  height: 361px;
-  background-color: aqua;
+  width: 100%;
+  border-radius: 10px;
+  background-color: white;
+  overflow: hidden;
+  color: white;
+  text-align: center;
+}
+
+.card__image {
+  width: 100%;
+  /* display: block; */
+  object-fit: cover;
+}
+
+.card__text-image {
 }

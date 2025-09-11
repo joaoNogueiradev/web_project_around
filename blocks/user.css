@@ -1,8 +1,9 @@
 .user {
-  margin-top: 40px;
-  background-color: blueviolet;
-  height: 120px;
+  padding: 0 19px;
+  margin-top: 42px;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
@@ -10,44 +11,48 @@
   width: 120px;
   height: 120px;
   border-radius: 100%;
-  background-color: blanchedalmond;
+  background-color: blue;
 }
 
 .user__text {
-  margin-left: 30px;
-  list-style: none;
+  list-style-type: none;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding: 0;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  margin-top: 30px;
   color: white;
 }
 
 .user__name {
   display: flex;
-  gap: 18px;
+  gap: 10px;
+  justify-content: center;
   align-items: center;
-  margin: 0;
 }
 
 .user__name-paragraph {
-  font-size: 42px;
-  margin: 0;
+  font-size: 22px;
+  font-weight: 500;
 }
 
 .user__name-edit {
+  width: 18px;
+  height: 18px;
   border: 1px solid white;
-  width: 24px;
-  height: 24px;
 }
 
 .user__type-paragraph {
-  margin: 0;
-  font-size: 18px;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .user__add-button {
-  width: 150px;
-  height: 50px;
-  margin-left: auto;
+  margin-top: 36px;
+  width: 100%;
+  padding: 17px 0;
+  color: white;
+  text-align: center;
+  border: 1px solid white;
 }
