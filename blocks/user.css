@@ -28,6 +28,7 @@
 .user__name {
   display: flex;
   gap: 10px;
+  align-items: center;
 }
 
 .user__name-paragraph {
@@ -64,3 +65,51 @@
   text-align: center;
   border: 1px solid white;
 }
+
+@media screen and (min-width: 600px) {
+  .user {
+    flex-direction: row;
+    max-width: 100%;
+    width: 880px;
+    justify-content: space-between;
+    margin-top: 42px;
+    /* margin: 50px auto 0 auto; */
+    margin: 42px auto 0 auto;
+    padding: 0;
+  }
+
+  .user__pic {
+  }
+
+  .user__pic {
+    min-width: 120px;
+    width: 120px;
+    height: 120px;
+    border-radius: 100%;
+    background-color: blue;
+  }
+  .user__text {
+    width: 100%;
+    max-width: 415px;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 30px;
+    color: white;
+  }
+  .user__add-button {
+    width: 150px;
+    min-width: 150px;
+  }
+}
+
+/* @media screen and (min-width: 1024px) {
+  .cards {
+    margin: 50px auto 0 auto;
+    width: 100%;
+    max-width: 880px;
+    justify-content: center;
+    grid-template-columns: repeat(3, 282px);
+  }
+} */
