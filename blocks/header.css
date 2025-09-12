@@ -11,9 +11,23 @@
 
 @media screen and (min-width: 600px) {
   .header {
+    padding: 28px 167px 32px 27px;
     margin: 0 auto;
-    width: 100%;
+    width: calc(100% - 100px);
     max-width: 880px;
     justify-content: center;
+  }
+  .header__logo {
+    width: 173px;
+    height: 33px;
+    object-fit: cover;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .header__logo {
+    width: 173px;
+    height: 33px;
+    object-fit: cover;
   }
 }
