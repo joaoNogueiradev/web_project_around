@@ -1,0 +1,69 @@
+.form {
+  padding: 25px 22px;
+  width: 100%;
+  height: 322px;
+  background-color: white;
+  opacity: none;
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  border-radius: 5px;
+  flex-direction: column;
+  position: relative;
+}
+
+.form__close-button {
+  width: 26px;
+  height: 26px;
+  transform: rotate(45deg);
+  position: absolute;
+  top: -45px;
+  right: 0px;
+  cursor: pointer;
+}
+.form__input {
+  width: 100%;
+  height: 26px;
+  padding: 9px 0;
+  border: none;
+  border-bottom: 1px solid rgba(00, 00, 00, 0.2);
+}
+
+.form__input-name {
+  margin-top: 76px;
+}
+
+.form__input-type {
+  margin-top: 30px;
+}
+
+.form__input:focus {
+  outline: none;
+}
+
+.form__submit-button {
+  margin-top: 46px;
+  margin-bottom: 0;
+  width: 100%;
+  height: 46px;
+  color: white;
+  background-color: black;
+  text-align: center;
+  border: none;
+  border-radius: 2px;
+}
+
+@media screen and (min-width: 768px) {
+  .form {
+    width: 100%;
+    max-width: 430px;
+  }
+  .form__close-button {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    cursor: pointer;
+  }
+}

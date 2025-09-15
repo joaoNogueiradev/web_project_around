@@ -1,0 +1,22 @@
+.footer {
+  padding: 50px 19px 36px 19px;
+  color: white;
+}
+@media screen and (min-width: 768px) {
+  .footer {
+    padding: 0 19px;
+    padding-bottom: 60px;
+    margin: 67px auto 0 auto;
+    background-color: black;
+    width: 100%;
+    max-width: 880px;
+    justify-content: center;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
