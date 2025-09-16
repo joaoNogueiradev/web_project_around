@@ -1,6 +1,6 @@
 .footer {
   padding: 50px 19px 36px 19px;
-  color: white;
+  color: #545454;
 }
 @media screen and (min-width: 768px) {
   .footer {

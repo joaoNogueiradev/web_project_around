@@ -12,6 +12,7 @@
   height: 120px;
   border-radius: 100%;
   background-color: blue;
+  object-fit: cover;
 }
 
 .user__text {
@@ -66,6 +67,11 @@
   border: 1px solid white;
 }
 
+.user__add-button-image {
+  width: 16px;
+  height: 16px;
+}
+
 @media screen and (min-width: 768px) {
   .user {
     margin: 50px auto 0 auto;
@@ -102,6 +108,11 @@
     min-width: 24px;
     height: 24px;
   }
+
+  .user__name-edit:hover {
+    opacity: 0.6;
+  }
+
   .user__name-paragraph {
     font-size: 42px;
     font-weight: 500;
@@ -109,7 +120,6 @@
     max-width: 415px;
     padding: 0;
     white-space: nowrap;
-    /* align-self: end; */
   }
   .user__name-edit-image {
     width: 10px;
@@ -125,6 +135,10 @@
     margin-left: auto;
     width: 150px;
     height: 50px;
+    cursor: pointer;
+  }
+  .user__add-button:hover {
+    opacity: 0.6;
   }
   .user__add-button-image {
     width: 22px;

@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Site para que possa ver as últimas fotografias do momento!"
+      content="Site para que possa ver os locais ao redor dos Estados !"
     />
     <meta name="author" content="João Nogueira" />
-    <meta name="keywords" content="Galeria, código, arte" />
-    <title>De pátria à pátria</title>
+    <meta name="keywords" content="Galeria, Estados, paisagens" />
+    <title>Ao redor dos E.U.A.</title>
     <link rel="stylesheet" href="./pages/index.css" />
-    <link rel="icon" href="" />
+    <link rel="icon" href="./images/heart.png" />
   </head>
   <body>
     <div class="page">
@@ -19,7 +19,7 @@
         <form class="form">
           <img
             class="form__close-button"
-            src="./images/plus.png"
+            src="./images/plus-compressed.png"
             alt="Botão para fechar o formulário de editar perfil"
           />
           <h2 class="form__title">Editar perfil</h2>
@@ -36,17 +36,23 @@
           <button class="form__submit-button" type="submit">Salvar</button>
         </form>
       </div>
+
       <header class="header">
         <img
           class="header__logo"
-          src="./images/logo.png"
+          src="./images/svg-logo.svg"
           alt="Around the US logo branca"
         />
       </header>
 
       <main class="content">
-        <div class="user">
-          <div class="user__pic"></div>
+        <section class="user">
+          <img
+            class="user__pic"
+            src="./images/user-pic.jpg"
+            alt="foto de usuário"
+          />
+
           <ul class="user__text">
             <li class="user__name">
               <p class="user__name-paragraph">Jacques Cousteau</p>
@@ -65,12 +71,12 @@
           <button class="user__add-button">
             <img
               class="user__add-button-image"
-              src="./images/plus.png"
+              src="./images/plus-compressed.png"
               alt="Sinal de Mais branco"
             />
           </button>
-        </div>
-        <div class="cards">
+        </section>
+        <section class="cards">
           <div class="card">
             <img
               class="card__image"
@@ -79,93 +85,105 @@
             />
             <div class="card__text">
               <p class="card__text-paragraph">Vale do Yosemite</p>
-              <img
-                class="card__like-button-heart"
-                src="./images/heart.png"
-                alt="botão de like na foto"
-              />
+              <button class="card__like">
+                <img
+                  class="card__like-image"
+                  src="./images/heart.png"
+                  alt="botão de like na foto"
+                />
+              </button>
             </div>
           </div>
           <div class="card">
             <img
               class="card__image"
-              src="./images/yosemite.jpg"
-              alt="Imagem da Paisagem de Yosemite"
+              src="./images/lago-louise.png"
+              alt="Imagem da Paisagem de lago louise"
             />
             <div class="card__text">
               <p class="card__text-paragraph">Lago Louise</p>
-              <img
-                class="card__like-button-heart"
-                src="./images/heart.png"
-                alt="botão de like na foto"
-              />
+              <button class="card__like">
+                <img
+                  class="card__like-image"
+                  src="./images/heart.png"
+                  alt="botão de like na foto"
+                />
+              </button>
             </div>
           </div>
           <div class="card">
             <img
               class="card__image"
-              src="./images/yosemite.jpg"
-              alt="Imagem da Paisagem de Yosemite"
+              src="./images/montanhas.png"
+              alt="Imagem das Montanhas"
             />
             <div class="card__text">
-              <p class="card__text-paragraph">Montanhas Careasdsads</p>
-              <img
-                class="card__like-button-heart"
-                src="./images/heart.png"
-                alt="botão de like na foto"
-              />
+              <p class="card__text-paragraph">Montanhas Carecas</p>
+              <button class="card__like">
+                <img
+                  class="card__like-image"
+                  src="./images/heart.png"
+                  alt="botão de like na foto"
+                />
+              </button>
             </div>
           </div>
           <div class="card">
             <img
               class="card__image"
-              src="./images/yosemite.jpg"
-              alt="Imagem da Paisagem de Yosemite"
+              src="./images/latemar.png"
+              alt="Imagem de Latemar"
             />
             <div class="card__text">
-              <p class="card__text-paragraph">Vale do Yosemite</p>
-              <img
-                class="card__like-button-heart"
-                src="./images/heart.png"
-                alt="botão de like na foto"
-              />
+              <p class="card__text-paragraph">Latemar</p>
+              <button class="card__like">
+                <img
+                  class="card__like-image"
+                  src="./images/heart.png"
+                  alt="botão de like na foto"
+                />
+              </button>
             </div>
           </div>
           <div class="card">
             <img
               class="card__image"
-              src="./images/yosemite.jpg"
-              alt="Imagem da Paisagem de Yosemite"
+              src="./images/parque-nacional.png"
+              alt="Imagem do Parque nacional"
             />
             <div class="card__text">
-              <p class="card__text-paragraph">Vale do Yosemite</p>
-              <img
-                class="card__like-button-heart"
-                src="./images/heart.png"
-                alt="botão de like na foto"
-              />
+              <p class="card__text-paragraph">Parque Nacional de</p>
+              <button class="card__like">
+                <img
+                  class="card__like-image"
+                  src="./images/heart.png"
+                  alt="botão de like na foto"
+                />
+              </button>
             </div>
           </div>
           <div class="card">
             <img
               class="card__image"
-              src="./images/yosemite.jpg"
-              alt="Imagem da Paisagem de Yosemite"
+              src="./images/lago-di-brailes.png"
+              alt="Imagem do Lago di Brailes"
             />
             <div class="card__text">
-              <p class="card__text-paragraph">Vale do Yosemite</p>
-              <img
-                class="card__like-button-heart"
-                src="./images/heart.png"
-                alt="botão de like na foto"
-              />
+              <p class="card__text-paragraph">Lago Di Brailes</p>
+              <button class="card__like">
+                <img
+                  class="card__like-image"
+                  src="./images/heart.png"
+                  alt="botão de like na foto"
+                />
+              </button>
             </div>
           </div>
-        </div>
+        </section>
       </main>
 
       <footer class="footer">
-        <p class="footer__text">© 2024 Around The U.S.</p>
+        <p class="footer__text">&copy;</p>
       </footer>
     </div>
     <script src="./js/script.js"></script>

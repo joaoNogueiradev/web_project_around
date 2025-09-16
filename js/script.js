@@ -6,6 +6,11 @@ let inputType = document.querySelector(".form__input-type");
 let currentUserName = document.querySelector(".user__name-paragraph");
 let currentUserType = document.querySelector(".user__type-paragraph");
 let formElement = document.querySelector(".form");
+let footerParagraph = document.querySelector(".footer__text");
+let d = new Date();
+let currentYear = d.getFullYear();
+
+footerParagraph.innerHTML = `&copy; ${currentYear} Around The U.S.`;
 
 if (!inputName.value) {
   inputName.value = currentUserName.innerHTML;

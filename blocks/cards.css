@@ -28,6 +28,13 @@
   padding: 20px 21px 31px 21px;
   align-items: center;
 }
+.card__like {
+  border: none;
+  background-color: transparent;
+}
+
+.card__like-button-heart_active {
+}
 
 .card__text-paragraph {
   font-size: 24px;
@@ -45,6 +52,13 @@
     max-width: 880px;
     justify-content: center;
     grid-template-columns: repeat(2, 282px);
+  }
+  .card__like {
+    cursor: pointer;
+  }
+  .card__like-image:hover {
+    opacity: 0.6;
+    fill: black;
   }
 }
 
