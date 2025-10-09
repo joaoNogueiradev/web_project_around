@@ -15,27 +15,7 @@
   </head>
   <body>
     <div class="page">
-      <div class="overlay">
-        <form class="form">
-          <img
-            class="form__close-button"
-            src="./images/plus-compressed.png"
-            alt="Botão para fechar o formulário de editar perfil"
-          />
-          <h2 class="form__title">Editar perfil</h2>
-          <input
-            class="form__input form__input-name"
-            type="text"
-            placeholder="Nome"
-          />
-          <input
-            class="form__input form__input-type"
-            type="text"
-            placeholder="Cargo"
-          />
-          <button class="form__submit-button" type="submit">Salvar</button>
-        </form>
-      </div>
+      <div class="overlay"></div>
 
       <header class="header">
         <img
@@ -187,5 +167,45 @@
       </footer>
     </div>
     <script src="./scripts/index.js"></script>
+    <template class="card__template">
+      <div class="card">
+        <img
+          class="card__image"
+          src="./images/montanhas.png"
+          alt="Imagem das Montanhas"
+        />
+        <div class="card__text">
+          <p class="card__text-paragraph">Montanhas Carecas</p>
+          <button class="card__like">
+            <img
+              class="card__like-image"
+              src="./images/heart.png"
+              alt="botão de like na foto"
+            />
+          </button>
+        </div>
+      </div>
+    </template>
+    <template class="form__template">
+      <form class="form">
+        <img
+          class="form__close-button"
+          src="./images/plus-compressed.png"
+          alt="Botão para fechar o formulário de editar perfil"
+        />
+        <h2 class="form__title">Editar perfil</h2>
+        <input
+          class="form__input form__input-name"
+          type="text"
+          placeholder="Nome"
+        />
+        <input
+          class="form__input form__input-type"
+          type="text"
+          placeholder="Cargo"
+        />
+        <button class="form__submit-button" type="submit">Salvar</button>
+      </form>
+    </template>
   </body>
 </html>
