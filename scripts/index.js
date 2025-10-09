@@ -1,11 +1,33 @@
 let editUserButton = document.querySelector(".user__name-edit");
 let addPlace = document.querySelector(".user__add-button");
 let overlay = document.querySelector(".overlay");
-let footerParagraph = document.querySelector(".footer__text");
-let d = new Date();
-let currentYear = d.getFullYear();
 
-footerParagraph.innerHTML = `&copy; ${currentYear} Around The U.S.`;
+const initialCards = [
+  {
+    name: "Vale de Yosemite",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
+  },
+  {
+    name: "Lago Louise",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
+  },
+  {
+    name: "Montanhas Carecas",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg",
+  },
+  {
+    name: "Latemar",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg",
+  },
+  {
+    name: "Parque Nacional da Vanoise ",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg",
+  },
+  {
+    name: "Lago di Braies",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
+  },
+];
 
 function handleProfileFormSubmit(e) {
   e.preventDefault();
@@ -63,7 +85,7 @@ function activateForm(e) {
     const formElement = newCardForm.querySelector(".form");
     const closeFormButton = newCardForm.querySelector(".form__close-button");
 
-    formElement.addEventListener("submit", handleProfileFormSubmit);
+    formElement.addEventListener("submit", handleNewCardFormSubmit);
     closeFormButton.addEventListener("click", closeForm);
 
     overlay.innerHTML = "";
@@ -78,9 +100,50 @@ function closeForm(e) {
     overlay.classList.remove("overlay_active");
 }
 
-function createCards() {}
+function createCards(name, link) {
+  const templateCard = document.querySelector(".card__template").content;
+
+  const cardElement = templateCard.cloneNode(true);
+
+  cardElement.querySelector(".card__image").src = link;
+  cardElement.querySelector(".card__image").alt = name;
+  cardElement.querySelector(".card__text-paragraph").textContent = name;
+
+  return cardElement;
+}
+
+function likeButtonsListener() {
+  const toggleButtons = document.querySelectorAll(".card__like");
+
+  toggleButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("card__like-button-heart_active"); // adiciona ou remove a classe
+    });
+  });
+}
+
+function renderCards() {
+  const cardsContainer = document.querySelector(".cards");
+
+  initialCards.forEach((card) => {
+    const cardElement = createCards(card.name, card.link);
+    cardsContainer.append(cardElement);
+  });
+}
+
+function renderFooter() {
+  let footerParagraph = document.querySelector(".footer__text");
+  let d = new Date();
+  let currentYear = d.getFullYear();
+
+  footerParagraph.innerHTML = `&copy; ${currentYear} Around The U.S.`;
+}
 
 editUserButton.addEventListener("click", activateForm);
 addPlace.addEventListener("click", activateForm);
+
+renderCards();
+renderFooter();
+likeButtonsListener();
 
 // ao clicar no botao adicionar, abre um form apenas com os valoeres dos campos mudados, então ele pode ser uma cópia do outro com os valores mudados.
