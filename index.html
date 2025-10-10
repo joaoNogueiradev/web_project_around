@@ -66,10 +66,17 @@
     <template class="card__template">
       <div class="card">
         <img
-          class="card__image"
+          class="card__image card__image-fullscreen"
           src="./images/yosemite.jpg"
           alt="Imagem da Paisagem de Yosemite"
         />
+        <button class="card__delete-button">
+          <img
+            class="card__delete-button-icon"
+            src="./images/trash.png"
+            alt="trash Icon"
+          />
+        </button>
         <div class="card__text">
           <p class="card__text-paragraph">Vale do Yosemite</p>
           <button class="card__like">
@@ -102,6 +109,23 @@
         />
         <button class="form__submit-button" type="submit">Salvar</button>
       </form>
+    </template>
+    <template class="fullscreen__template">
+      <div class="fullscreen__container">
+        <button class="fullscreen__delete-button">
+          <img
+            class="fullscreen__delete-button-image"
+            src="./images/plus-compressed.png"
+            alt="Botão para fechar o formulário de editar perfil"
+          />
+        </button>
+        <img
+          src="https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg"
+          alt=""
+          class="fullscreen__image"
+        />
+        <p class="fullscreen__name">Imagem louca</p>
+      </div>
     </template>
     <script src="./scripts/index.js"></script>
   </body>

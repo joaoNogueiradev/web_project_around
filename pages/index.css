@@ -7,6 +7,7 @@
 @import url(../blocks/user.css);
 @import url(../blocks/cards.css);
 @import url(../blocks/footer.css);
+@import url(../blocks/fullscreen.css);
 
 * {
   box-sizing: border-box;

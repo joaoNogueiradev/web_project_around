@@ -54,7 +54,18 @@ function handleProfileFormSubmit(e) {
 function handleNewCardFormSubmit(e) {
   e.preventDefault();
 
+  const inputPlace = document.querySelector(".form__input-name").value;
+  const inputImage = document.querySelector(".form__input-type").value;
+
+  const newCard = {
+    name: inputPlace,
+    link: inputImage,
+  };
+
+  initialCards.unshift(newCard);
+
   closeForm();
+  renderCards();
 }
 
 function activateForm(e) {
@@ -117,7 +128,7 @@ function likeButtonsListener() {
 
   toggleButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
-      btn.classList.toggle("card__like-button-heart_active"); // adiciona ou remove a classe
+      btn.classList.toggle("card__like-button-heart_active");
     });
   });
 }
@@ -125,10 +136,17 @@ function likeButtonsListener() {
 function renderCards() {
   const cardsContainer = document.querySelector(".cards");
 
-  initialCards.forEach((card) => {
+  if (cardsContainer.children.length === 0) {
+    initialCards.forEach((card) => {
+      const cardElement = createCards(card.name, card.link);
+      cardsContainer.append(cardElement);
+    });
+  } else {
+    const card = initialCards[0];
     const cardElement = createCards(card.name, card.link);
-    cardsContainer.append(cardElement);
-  });
+    cardsContainer.prepend(cardElement);
+    likeButtonsListener();
+  }
 }
 
 function renderFooter() {
@@ -139,11 +157,33 @@ function renderFooter() {
   footerParagraph.innerHTML = `&copy; ${currentYear} Around The U.S.`;
 }
 
+function removeCards() {
+  document.querySelector(".cards").addEventListener("click", (e) => {
+    if (e.target.closest(".card__delete-button")) {
+      const cardElement = e.target.closest(".card");
+      const cardName = cardElement.querySelector(
+        ".card__text-paragraph"
+      ).textContent;
+
+      const index = initialCards.findIndex((card) => card.name === cardName);
+
+      if (index !== -1) {
+        initialCards.splice(index, 1);
+      }
+
+      cardElement.remove();
+    }
+  });
+}
+
+function showCardImage() {}
+
 editUserButton.addEventListener("click", activateForm);
 addPlace.addEventListener("click", activateForm);
 
 renderCards();
 renderFooter();
 likeButtonsListener();
-
+removeCards();
+showCardImage();
 // ao clicar no botao adicionar, abre um form apenas com os valoeres dos campos mudados, então ele pode ser uma cópia do outro com os valores mudados.
