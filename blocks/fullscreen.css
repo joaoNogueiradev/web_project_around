@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   max-width: 100%;
-  padding: 0 40px;
   align-items: center;
   position: relative;
 }
@@ -24,8 +23,8 @@
 }
 .fullscreen__image {
   width: 100%;
-  max-width: 299px;
-  max-height: 299px;
+  max-width: 75vh;
+  max-height: 75vh;
   object-fit: cover;
 }
 .fullscreen__name {
@@ -64,9 +63,8 @@
     width: 40px;
   }
   .fullscreen__image {
-    max-width: 816px;
-    max-height: 540px;
-  }
-  .fullscreen__name {
+    width: 100%;
+    max-width: 75vh;
+    height: 75vh;
   }
 }

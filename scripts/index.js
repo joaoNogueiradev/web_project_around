@@ -57,6 +57,12 @@ function handleNewCardFormSubmit(e) {
   const inputPlace = document.querySelector(".form__input-name").value;
   const inputImage = document.querySelector(".form__input-type").value;
 
+  if (!inputImage.startsWith("https")) {
+    alert("Insira uma imagem válida!");
+    document.querySelector(".form").reset();
+    return;
+  }
+
   const newCard = {
     name: inputPlace,
     link: inputImage,
@@ -176,7 +182,39 @@ function removeCards() {
   });
 }
 
-function showCardImage() {}
+function showFullscreenImage() {
+  document.querySelector(".cards").addEventListener("click", (e) => {
+    if (e.target.closest(".card__image")) {
+      const clickedCard = e.target.closest(".card");
+      const image = clickedCard.querySelector(".card__image").src;
+      const name = clickedCard.querySelector(
+        ".card__text-paragraph"
+      ).textContent;
+
+      console.log(image, name); //feito
+
+      const fullscreenImage = document
+        .querySelector(".fullscreen__template")
+        .content.cloneNode(true);
+
+      fullscreenImage.querySelector(".fullscreen__image").src = image;
+      fullscreenImage.querySelector(".fullscreen__name").textContent = name;
+      overlay.append(fullscreenImage);
+      overlay.classList.add("overlay_active");
+      closeFullscreenImage();
+      //colocar os valores dentro da src do elemento e do nome
+    }
+  });
+}
+
+function closeFullscreenImage() {
+  document.querySelector(".overlay").addEventListener("click", (e) => {
+    if (e.target.closest(".fullscreen__delete-button")) {
+      overlay.innerHTML = "";
+      overlay.classList.remove("overlay_active");
+    }
+  });
+}
 
 editUserButton.addEventListener("click", activateForm);
 addPlace.addEventListener("click", activateForm);
@@ -185,5 +223,4 @@ renderCards();
 renderFooter();
 likeButtonsListener();
 removeCards();
-showCardImage();
-// ao clicar no botao adicionar, abre um form apenas com os valoeres dos campos mudados, então ele pode ser uma cópia do outro com os valores mudados.
+showFullscreenImage();
