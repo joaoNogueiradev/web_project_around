@@ -1,6 +1,6 @@
-let editUserButton = document.querySelector(".user__name-edit");
-let addPlace = document.querySelector(".user__add-button");
-let overlay = document.querySelector(".overlay");
+const editUserButton = document.querySelector(".user__name-edit");
+const addPlace = document.querySelector(".user__add-button");
+const overlay = document.querySelector(".overlay");
 
 const initialCards = [
   {
