@@ -43,6 +43,35 @@ const initialCards = [
   },
 ];
 
+function onEsc(e) {
+  if (e.key === "Escape" && overlay.classList.contains("overlay_active")) {
+    closeOverlay();
+  }
+}
+
+function onOverlayClick(e) {
+  if (
+    e.target === overlay ||
+    e.target.closest(".fullscreen__delete-button") ||
+    e.target.closest(".form__close-button")
+  ) {
+    closeOverlay();
+  }
+}
+
+function openOverlay() {
+  overlay.classList.add("overlay_active");
+  document.addEventListener("keydown", onEsc);
+  overlay.addEventListener("click", onOverlayClick);
+}
+
+function closeOverlay() {
+  overlay.classList.remove("overlay_active");
+  overlay.innerHTML = "";
+  document.removeEventListener("keydown", onEsc);
+  overlay.removeEventListener("click", onOverlayClick);
+}
+
 function showFullscreenImage() {
   document.querySelector(".cards").addEventListener("click", (e) => {
     if (e.target.closest(".card__image")) {
@@ -52,26 +81,16 @@ function showFullscreenImage() {
         ".card__text-paragraph"
       ).textContent;
 
-      console.log(image, name); //feito
-
       const fullscreenImage = document
         .querySelector(".fullscreen__template")
         .content.cloneNode(true);
 
       fullscreenImage.querySelector(".fullscreen__image").src = image;
       fullscreenImage.querySelector(".fullscreen__name").textContent = name;
-      overlay.append(fullscreenImage);
-      overlay.classList.add("overlay_active");
-      closeFullscreenImage();
-    }
-  });
-}
 
-function closeFullscreenImage() {
-  document.querySelector(".overlay").addEventListener("click", (e) => {
-    if (e.target.closest(".fullscreen__delete-button")) {
       overlay.innerHTML = "";
-      overlay.classList.remove("overlay_active");
+      overlay.append(fullscreenImage);
+      openOverlay();
     }
   });
 }
@@ -81,12 +100,9 @@ function activateForm(e) {
     const userForm = document
       .querySelector(".form__template")
       .content.cloneNode(true);
-
     const formElement = userForm.querySelector(".form");
-    const closeFormButton = userForm.querySelector(".form__close-button");
 
     formElement.addEventListener("submit", handleProfileFormSubmit);
-    closeFormButton.addEventListener("click", closeForm);
 
     formElement.querySelector(".form__input-name").minlength = 2;
     formElement.querySelector(".form__input-name").maxlength = 40;
@@ -98,7 +114,7 @@ function activateForm(e) {
     overlay.append(userForm);
     setEventListeners(formElement, validationConfig);
 
-    overlay.classList.add("overlay_active");
+    openOverlay();
   } else if (e.target.closest(".user__add-button")) {
     const newCardForm = document
       .querySelector(".form__template")
@@ -109,33 +125,27 @@ function activateForm(e) {
     newCardForm.querySelector(".form__input-type").placeholder = "Imagem";
 
     const formElement = newCardForm.querySelector(".form");
-    const closeFormButton = newCardForm.querySelector(".form__close-button");
-
     formElement.querySelector(".form__input-type").type = "url";
     formElement.querySelector(".form__input-name").minlength = 2;
     formElement.querySelector(".form__input-name").maxlength = 30;
     formElement.setAttribute("name", "cardForm");
 
     formElement.addEventListener("submit", handleNewCardFormSubmit);
-    closeFormButton.addEventListener("click", closeForm);
 
     overlay.innerHTML = "";
     overlay.append(newCardForm);
     setEventListeners(formElement, validationConfig);
 
-    overlay.classList.add("overlay_active");
+    openOverlay();
   }
 }
 
-function closeForm(e) {
+function closeForm() {
   const formElement = overlay.querySelector(validationConfig.formSelector);
-  if (overlay.classList.contains("overlay_active")) {
-    overlay.classList.remove("overlay_active");
-    overlay.innerHTML = "";
-  }
   if (formElement) {
     resetValidation(formElement, validationConfig);
   }
+  closeOverlay();
 }
 
 function handleProfileFormSubmit(e) {
@@ -243,20 +253,6 @@ function renderFooter() {
 
   footerParagraph.innerHTML = `&copy; ${currentYear} Around The U.S.`;
 }
-
-overlay.addEventListener("click", (e) => {
-  if (e.target === overlay) {
-    overlay.classList.remove("overlay_active");
-    overlay.innerHTML = "";
-  }
-});
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && overlay.classList.contains("overlay_active")) {
-    overlay.classList.remove("overlay_active");
-    overlay.innerHTML = "";
-  }
-});
 
 editUserButton.addEventListener("click", activateForm);
 addPlace.addEventListener("click", activateForm);
