@@ -1,6 +1,20 @@
+import {
+  enableValidation,
+  setEventListeners,
+  resetValidation,
+} from "./validate.js";
+
 const editUserButton = document.querySelector(".user__name-edit");
 const addPlace = document.querySelector(".user__add-button");
 const overlay = document.querySelector(".overlay");
+const config = {
+  formSelector: ".form",
+  inputSelector: ".form__input",
+  submitButtonSelector: ".form__submit-button",
+  inactiveButtonClass: "", // você está usando apenas disabled
+  inputErrorClass: "form__input_type_error",
+  errorClass: "form__input-error_active",
+};
 
 const initialCards = [
   {
@@ -28,6 +42,96 @@ const initialCards = [
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
   },
 ];
+
+function showFullscreenImage() {
+  document.querySelector(".cards").addEventListener("click", (e) => {
+    if (e.target.closest(".card__image")) {
+      const clickedCard = e.target.closest(".card");
+      const image = clickedCard.querySelector(".card__image").src;
+      const name = clickedCard.querySelector(
+        ".card__text-paragraph"
+      ).textContent;
+
+      console.log(image, name); //feito
+
+      const fullscreenImage = document
+        .querySelector(".fullscreen__template")
+        .content.cloneNode(true);
+
+      fullscreenImage.querySelector(".fullscreen__image").src = image;
+      fullscreenImage.querySelector(".fullscreen__name").textContent = name;
+      overlay.append(fullscreenImage);
+      overlay.classList.add("overlay_active");
+      closeFullscreenImage();
+    }
+  });
+}
+
+function closeFullscreenImage() {
+  document.querySelector(".overlay").addEventListener("click", (e) => {
+    if (e.target.closest(".fullscreen__delete-button")) {
+      overlay.innerHTML = "";
+      overlay.classList.remove("overlay_active");
+    }
+  });
+}
+
+function activateForm(e) {
+  if (e.target.closest(".user__name-edit")) {
+    const userForm = document
+      .querySelector(".form__template")
+      .content.cloneNode(true);
+
+    const formElement = userForm.querySelector(".form");
+    const closeFormButton = userForm.querySelector(".form__close-button");
+
+    formElement.addEventListener("submit", handleProfileFormSubmit);
+    closeFormButton.addEventListener("click", closeForm);
+
+    formElement.querySelector(".form__input-name").minlength = 2;
+    formElement.querySelector(".form__input-name").maxlength = 40;
+    formElement.querySelector(".form__input-type").minlength = 2;
+    formElement.querySelector(".form__input-type").maxlength = 200;
+    formElement.setAttribute("name", "userForm");
+
+    overlay.innerHTML = "";
+    overlay.append(userForm);
+    setEventListeners(formElement, config);
+
+    overlay.classList.add("overlay_active");
+  } else if (e.target.closest(".user__add-button")) {
+    const newCardForm = document
+      .querySelector(".form__template")
+      .content.cloneNode(true);
+
+    newCardForm.querySelector(".form__title").textContent = "Novo Lugar";
+    newCardForm.querySelector(".form__input-name").placeholder = "Título";
+    newCardForm.querySelector(".form__input-type").placeholder = "Imagem";
+
+    const formElement = newCardForm.querySelector(".form");
+    const closeFormButton = newCardForm.querySelector(".form__close-button");
+
+    formElement.querySelector(".form__input-type").type = "url";
+    formElement.querySelector(".form__input-name").minlength = 2;
+    formElement.querySelector(".form__input-name").maxlength = 30;
+    formElement.setAttribute("name", "cardForm");
+
+    formElement.addEventListener("submit", handleNewCardFormSubmit);
+    closeFormButton.addEventListener("click", closeForm);
+
+    overlay.innerHTML = "";
+    overlay.append(newCardForm);
+    setEventListeners(formElement, config);
+
+    overlay.classList.add("overlay_active");
+  }
+}
+
+function closeForm(e) {
+  if (overlay.classList.contains("overlay_active"))
+    overlay.classList.remove("overlay_active");
+  resetValidation(config.formSelector, config);
+}
 
 function handleProfileFormSubmit(e) {
   e.preventDefault();
@@ -70,106 +174,6 @@ function handleNewCardFormSubmit(e) {
   renderCards();
 }
 
-function activateForm(e) {
-  if (e.target.closest(".user__name-edit")) {
-    const userForm = document
-      .querySelector(".form__template")
-      .content.cloneNode(true);
-
-    const formElement = userForm.querySelector(".form");
-    const closeFormButton = userForm.querySelector(".form__close-button");
-
-    formElement.addEventListener("submit", handleProfileFormSubmit);
-    closeFormButton.addEventListener("click", closeForm);
-
-    formElement.querySelector(".form__input-name").minlength = 2;
-    formElement.querySelector(".form__input-name").maxlength = 40;
-    formElement.querySelector(".form__input-type").minlength = 2;
-    formElement.querySelector(".form__input-type").maxlength = 200;
-    formElement.setAttribute("name", "userForm");
-
-    overlay.innerHTML = "";
-    overlay.append(userForm);
-    setEventListeners(formElement);
-
-    overlay.classList.add("overlay_active");
-  } else if (e.target.closest(".user__add-button")) {
-    const newCardForm = document
-      .querySelector(".form__template")
-      .content.cloneNode(true);
-
-    newCardForm.querySelector(".form__title").textContent = "Novo Lugar";
-    newCardForm.querySelector(".form__input-name").placeholder = "Título";
-    newCardForm.querySelector(".form__input-type").placeholder = "Imagem";
-
-    const formElement = newCardForm.querySelector(".form");
-    const closeFormButton = newCardForm.querySelector(".form__close-button");
-
-    formElement.querySelector(".form__input-type").type = "url";
-    formElement.querySelector(".form__input-name").minlength = 2;
-    formElement.querySelector(".form__input-name").maxlength = 30;
-    formElement.setAttribute("name", "cardForm");
-
-    formElement.addEventListener("submit", handleNewCardFormSubmit);
-    closeFormButton.addEventListener("click", closeForm);
-
-    overlay.innerHTML = "";
-    overlay.append(newCardForm);
-    setEventListeners(formElement);
-
-    overlay.classList.add("overlay_active");
-  }
-}
-
-function closeForm(e) {
-  if (overlay.classList.contains("overlay_active"))
-    overlay.classList.remove("overlay_active");
-}
-
-const showInputError = (formElement, inputElement, errorMessage) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add("form__input_type_error");
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add("form__input-error_active");
-};
-
-const hideInputError = (formElement, inputElement) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove("form__input_type_error");
-  errorElement.classList.remove("form__input-error_active");
-  errorElement.textContent = "";
-};
-
-const isValid = (formElement, inputElement) => {
-  if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
-  } else {
-    hideInputError(formElement, inputElement);
-  }
-};
-
-const setEventListeners = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll(".form__input"));
-
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener("input", () => {
-      isValid(formElement, inputElement);
-    });
-  });
-};
-
-const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll(".form"));
-
-  formList.forEach((formElement) => {
-    formElement.addEventListener("submit", (evt) => {
-      evt.preventDefault();
-    });
-
-    setEventListeners(formElement);
-  });
-};
-
 function createCards(name, link) {
   const templateCard = document.querySelector(".card__template").content;
 
@@ -180,16 +184,6 @@ function createCards(name, link) {
   cardElement.querySelector(".card__text-paragraph").textContent = name;
 
   return cardElement;
-}
-
-function likeButtonsListener() {
-  const toggleButtons = document.querySelectorAll(".card__like");
-
-  toggleButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      btn.classList.toggle("card__like-button-heart_active");
-    });
-  });
 }
 
 function renderCards() {
@@ -206,14 +200,6 @@ function renderCards() {
     cardsContainer.prepend(cardElement);
     likeButtonsListener();
   }
-}
-
-function renderFooter() {
-  let footerParagraph = document.querySelector(".footer__text");
-  let d = new Date();
-  let currentYear = d.getFullYear();
-
-  footerParagraph.innerHTML = `&copy; ${currentYear} Around The U.S.`;
 }
 
 function removeCards() {
@@ -235,45 +221,44 @@ function removeCards() {
   });
 }
 
-function showFullscreenImage() {
-  document.querySelector(".cards").addEventListener("click", (e) => {
-    if (e.target.closest(".card__image")) {
-      const clickedCard = e.target.closest(".card");
-      const image = clickedCard.querySelector(".card__image").src;
-      const name = clickedCard.querySelector(
-        ".card__text-paragraph"
-      ).textContent;
+function likeButtonsListener() {
+  const toggleButtons = document.querySelectorAll(".card__like");
 
-      console.log(image, name); //feito
-
-      const fullscreenImage = document
-        .querySelector(".fullscreen__template")
-        .content.cloneNode(true);
-
-      fullscreenImage.querySelector(".fullscreen__image").src = image;
-      fullscreenImage.querySelector(".fullscreen__name").textContent = name;
-      overlay.append(fullscreenImage);
-      overlay.classList.add("overlay_active");
-      closeFullscreenImage();
-    }
+  toggleButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("card__like-button-heart_active");
+    });
   });
 }
 
-function closeFullscreenImage() {
-  document.querySelector(".overlay").addEventListener("click", (e) => {
-    if (e.target.closest(".fullscreen__delete-button")) {
-      overlay.innerHTML = "";
-      overlay.classList.remove("overlay_active");
-    }
-  });
+function renderFooter() {
+  let footerParagraph = document.querySelector(".footer__text");
+  let d = new Date();
+  let currentYear = d.getFullYear();
+
+  footerParagraph.innerHTML = `&copy; ${currentYear} Around The U.S.`;
 }
+
+overlay.addEventListener("click", (e) => {
+  if (e.target === overlay) {
+    overlay.classList.remove("overlay_active");
+    overlay.innerHTML = "";
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && overlay.classList.contains("overlay_active")) {
+    overlay.classList.remove("overlay_active");
+    overlay.innerHTML = "";
+  }
+});
 
 editUserButton.addEventListener("click", activateForm);
 addPlace.addEventListener("click", activateForm);
 
 renderCards();
-renderFooter();
-likeButtonsListener();
-removeCards();
 showFullscreenImage();
-enableValidation();
+likeButtonsListener();
+enableValidation(config);
+removeCards();
+renderFooter();

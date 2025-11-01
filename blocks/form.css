@@ -1,7 +1,6 @@
 .form {
   padding: 25px 22px;
   width: 100%;
-  height: 322px;
   background-color: white;
   opacity: none;
   display: flex;
@@ -10,6 +9,11 @@
   border-radius: 10px;
   flex-direction: column;
   position: relative;
+}
+
+.form__title {
+  font-size: 24px;
+  font-weight: 900;
 }
 
 .form__close-button {
@@ -23,17 +27,18 @@
 .form__input {
   width: 100%;
   height: 26px;
-  padding: 9px 0;
+  padding: 20px 0;
   border: none;
+  font-size: 14px;
   border-bottom: 1px solid rgba(00, 00, 00, 0.2);
 }
 
 .form__input-name {
-  margin-top: 76px;
+  margin-top: 50px;
 }
 
 .form__input-type {
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .form__input:focus {
@@ -42,8 +47,8 @@
 
 .form__submit-button {
   width: 100%;
-  height: 46px;
-  margin-top: 40px;
+  margin-top: 32px;
+  height: 50px;
   background-color: black;
   color: white;
   border: none;
@@ -54,22 +59,25 @@
   opacity: 0.2;
   color: black;
   border: 1px solid black;
+  cursor: not-allowed;
 }
 
 .form__submit-button:hover:disabled {
-  opacity: none;
+  opacity: 0.2;
 }
 
-/* .form__input:invalid {
-  border-bottom: 1px solid red;
+.form__input_type:invalid {
+  border-bottom-color: red;
 }
-
-.form__input:valid {
-  border-bottom: 1px solid green;
-} */
 
 .form__input_type_error {
   border-bottom-color: red;
+}
+
+.form__input-error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
 }
 
 @media screen and (min-width: 768px) {
