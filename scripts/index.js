@@ -7,7 +7,7 @@ import {
 const editUserButton = document.querySelector(".user__name-edit");
 const addPlace = document.querySelector(".user__add-button");
 const overlay = document.querySelector(".overlay");
-const config = {
+const validationConfig = {
   formSelector: ".form",
   inputSelector: ".form__input",
   submitButtonSelector: ".form__submit-button",
@@ -96,7 +96,7 @@ function activateForm(e) {
 
     overlay.innerHTML = "";
     overlay.append(userForm);
-    setEventListeners(formElement, config);
+    setEventListeners(formElement, validationConfig);
 
     overlay.classList.add("overlay_active");
   } else if (e.target.closest(".user__add-button")) {
@@ -121,20 +121,20 @@ function activateForm(e) {
 
     overlay.innerHTML = "";
     overlay.append(newCardForm);
-    setEventListeners(formElement, config);
+    setEventListeners(formElement, validationConfig);
 
     overlay.classList.add("overlay_active");
   }
 }
 
 function closeForm(e) {
-  const formElement = overlay.querySelector(config.formSelector);
+  const formElement = overlay.querySelector(validationConfig.formSelector);
   if (overlay.classList.contains("overlay_active")) {
     overlay.classList.remove("overlay_active");
     overlay.innerHTML = "";
   }
   if (formElement) {
-    resetValidation(formElement, config);
+    resetValidation(formElement, validationConfig);
   }
 }
 
@@ -264,6 +264,6 @@ addPlace.addEventListener("click", activateForm);
 renderCards();
 showFullscreenImage();
 likeButtonsListener();
-enableValidation(config);
+enableValidation(validationConfig);
 removeCards();
 renderFooter();
