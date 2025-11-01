@@ -128,9 +128,14 @@ function activateForm(e) {
 }
 
 function closeForm(e) {
-  if (overlay.classList.contains("overlay_active"))
+  const formElement = overlay.querySelector(config.formSelector);
+  if (overlay.classList.contains("overlay_active")) {
     overlay.classList.remove("overlay_active");
-  resetValidation(config.formSelector, config);
+    overlay.innerHTML = "";
+  }
+  if (formElement) {
+    resetValidation(formElement, config);
+  }
 }
 
 function handleProfileFormSubmit(e) {
