@@ -2,7 +2,7 @@ import {
   enableValidation,
   setEventListeners,
   resetValidation,
-} from "../scripts/validate.js";
+} from "./validate.js";
 
 const editUserButton = document.querySelector(".user__name-edit");
 const addPlace = document.querySelector(".user__add-button");
