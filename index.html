@@ -90,24 +90,39 @@
       </div>
     </template>
     <template class="form__template">
-      <form class="form">
+      <form class="form" novalidate>
         <img
           class="form__close-button"
           src="./images/plus-compressed.png"
           alt="Botão para fechar o formulário de editar perfil"
         />
         <h2 class="form__title">Editar perfil</h2>
+
         <input
+          id="nome"
           class="form__input form__input-name"
           type="text"
           placeholder="Nome"
+          minlength="2"
+          maxlength="40"
+          required
         />
+        <span class="form__input-error nome-error"></span>
+
         <input
+          id="sobre"
           class="form__input form__input-type"
           type="text"
           placeholder="Cargo"
+          minlength="2"
+          maxlength="200"
+          required
         />
-        <button class="form__submit-button" type="submit">Salvar</button>
+        <span class="form__input-error sobre-error"></span>
+
+        <button class="form__submit-button" type="submit" disabled>
+          Salvar
+        </button>
       </form>
     </template>
     <template class="fullscreen__template">
@@ -123,6 +138,7 @@
         <p class="fullscreen__name"></p>
       </div>
     </template>
+    <script src="./scripts/validate.js"></script>
     <script src="./scripts/index.js"></script>
   </body>
 </html>

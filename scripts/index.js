@@ -54,14 +54,10 @@ function handleProfileFormSubmit(e) {
 function handleNewCardFormSubmit(e) {
   e.preventDefault();
 
+  console.log(document.forms.cardForm[0].validity);
+
   const inputPlace = document.querySelector(".form__input-name").value;
   const inputImage = document.querySelector(".form__input-type").value;
-
-  if (!inputImage.startsWith("https")) {
-    alert("Insira uma imagem válida!");
-    document.querySelector(".form").reset();
-    return;
-  }
 
   const newCard = {
     name: inputPlace,
@@ -86,8 +82,15 @@ function activateForm(e) {
     formElement.addEventListener("submit", handleProfileFormSubmit);
     closeFormButton.addEventListener("click", closeForm);
 
+    formElement.querySelector(".form__input-name").minlength = 2;
+    formElement.querySelector(".form__input-name").maxlength = 40;
+    formElement.querySelector(".form__input-type").minlength = 2;
+    formElement.querySelector(".form__input-type").maxlength = 200;
+    formElement.setAttribute("name", "userForm");
+
     overlay.innerHTML = "";
     overlay.append(userForm);
+    setEventListeners(formElement);
 
     overlay.classList.add("overlay_active");
   } else if (e.target.closest(".user__add-button")) {
@@ -102,11 +105,17 @@ function activateForm(e) {
     const formElement = newCardForm.querySelector(".form");
     const closeFormButton = newCardForm.querySelector(".form__close-button");
 
+    formElement.querySelector(".form__input-type").type = "url";
+    formElement.querySelector(".form__input-name").minlength = 2;
+    formElement.querySelector(".form__input-name").maxlength = 30;
+    formElement.setAttribute("name", "cardForm");
+
     formElement.addEventListener("submit", handleNewCardFormSubmit);
     closeFormButton.addEventListener("click", closeForm);
 
     overlay.innerHTML = "";
     overlay.append(newCardForm);
+    setEventListeners(formElement);
 
     overlay.classList.add("overlay_active");
   }
@@ -116,6 +125,50 @@ function closeForm(e) {
   if (overlay.classList.contains("overlay_active"))
     overlay.classList.remove("overlay_active");
 }
+
+const showInputError = (formElement, inputElement, errorMessage) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.add("form__input_type_error");
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add("form__input-error_active");
+};
+
+const hideInputError = (formElement, inputElement) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.remove("form__input_type_error");
+  errorElement.classList.remove("form__input-error_active");
+  errorElement.textContent = "";
+};
+
+const isValid = (formElement, inputElement) => {
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(formElement, inputElement);
+  }
+};
+
+const setEventListeners = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll(".form__input"));
+
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener("input", () => {
+      isValid(formElement, inputElement);
+    });
+  });
+};
+
+const enableValidation = () => {
+  const formList = Array.from(document.querySelectorAll(".form"));
+
+  formList.forEach((formElement) => {
+    formElement.addEventListener("submit", (evt) => {
+      evt.preventDefault();
+    });
+
+    setEventListeners(formElement);
+  });
+};
 
 function createCards(name, link) {
   const templateCard = document.querySelector(".card__template").content;
@@ -202,7 +255,6 @@ function showFullscreenImage() {
       overlay.append(fullscreenImage);
       overlay.classList.add("overlay_active");
       closeFullscreenImage();
-      //colocar os valores dentro da src do elemento e do nome
     }
   });
 }
@@ -224,3 +276,4 @@ renderFooter();
 likeButtonsListener();
 removeCards();
 showFullscreenImage();
+enableValidation();
