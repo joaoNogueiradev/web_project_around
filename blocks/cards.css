@@ -5,6 +5,12 @@
   gap: 20px;
   justify-content: center;
 }
+
+.cards__empty {
+  color: white;
+  opacity: 0.2;
+  text-align: center;
+}
 .card {
   width: 282px;
   height: 361px;

@@ -35,6 +35,11 @@
 .user__name-paragraph {
   font-size: 22px;
   font-weight: 500;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
 }
 
 .user__name-edit {
@@ -55,6 +60,11 @@
 .user__type-paragraph {
   font-size: 14px;
   font-weight: 400;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
 }
 
 .user__add-button {
@@ -119,7 +129,7 @@
     width: 100%;
     max-width: 415px;
     padding: 0;
-    white-space: nowrap;
+    max-width: 330px;
   }
   .user__name-edit-image {
     width: 10px;
@@ -128,6 +138,7 @@
   .user__type-paragraph {
     font-size: 18px;
     font-weight: 400;
+    max-width: 300px;
   }
   .user__add-button {
     margin-top: 0;
@@ -188,6 +199,7 @@
     font-weight: 500;
     padding: 0;
     align-self: end;
+    max-width: 500px;
   }
   .user__name-edit-image {
     width: 10px;
@@ -196,6 +208,7 @@
   .user__type-paragraph {
     font-size: 18px;
     font-weight: 400;
+    max-width: 500px;
   }
   .user__add-button {
     margin-top: 0;

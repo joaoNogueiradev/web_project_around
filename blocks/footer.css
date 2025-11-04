@@ -1,22 +1,26 @@
 .footer {
+  background-color: black;
+  width: 100%;
+}
+
+.footer__content {
+  max-width: 880px;
+  margin: 0 auto;
   padding: 50px 19px 36px 19px;
   color: #545454;
+  text-align: left;
 }
+
 @media screen and (min-width: 768px) {
-  .footer {
-    padding: 0 19px;
+  .footer__content {
     padding-bottom: 60px;
-    margin: 67px auto 0 auto;
-    background-color: black;
-    width: 100%;
-    max-width: 880px;
-    justify-content: center;
+    margin-top: 67px;
   }
 }
 
 @media screen and (min-width: 1024px) {
-  .footer {
-    padding-right: 0;
+  .footer__content {
     padding-left: 0;
+    padding-right: 0;
   }
 }

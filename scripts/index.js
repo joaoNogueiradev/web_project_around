@@ -15,6 +15,7 @@ const validationConfig = {
   inputErrorClass: "form__input_type_error",
   errorClass: "form__input-error_active",
 };
+const cardsContainer = document.querySelector(".cards");
 
 const initialCards = [
   {
@@ -86,6 +87,7 @@ function showFullscreenImage() {
         .content.cloneNode(true);
 
       fullscreenImage.querySelector(".fullscreen__image").src = image;
+      fullscreenImage.querySelector(".fullscreen__image").alt = name;
       fullscreenImage.querySelector(".fullscreen__name").textContent = name;
 
       overlay.innerHTML = "";
@@ -247,19 +249,27 @@ function likeButtonsListener() {
 }
 
 function renderFooter() {
-  let footerParagraph = document.querySelector(".footer__text");
-  let d = new Date();
-  let currentYear = d.getFullYear();
+  const footerParagraph = document.querySelector(".footer__text");
+  const d = new Date();
+  const currentYear = d.getFullYear();
 
   footerParagraph.innerHTML = `&copy; ${currentYear} Around The U.S.`;
+}
+
+function handleEmptyCards() {
+  if (initialCards.length > 0) {
+    renderCards();
+  } else {
+    cardsContainer.innerHTML = `<h2 class="cards__empty">Não há cards</h2>`;
+  }
 }
 
 editUserButton.addEventListener("click", activateForm);
 addPlace.addEventListener("click", activateForm);
 
-renderCards();
+renderFooter();
+handleEmptyCards();
 showFullscreenImage();
 likeButtonsListener();
 enableValidation(validationConfig);
 removeCards();
-renderFooter();
