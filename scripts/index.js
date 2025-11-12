@@ -1,20 +1,25 @@
+import FormValidator from "./FormValidator.js";
+import Card from "./Card.js";
 import {
-  enableValidation,
-  setEventListeners,
-  resetValidation,
-} from "./validate.js";
+  overlay,
+  openOverlay,
+  closeOverlay,
+  renderFooter,
+  enableFullscreenOn,
+} from "./utils/utils.js";
 
 const editUserButton = document.querySelector(".user__name-edit");
 const addPlace = document.querySelector(".user__add-button");
-const overlay = document.querySelector(".overlay");
+
 const validationConfig = {
   formSelector: ".form",
   inputSelector: ".form__input",
   submitButtonSelector: ".form__submit-button",
-  inactiveButtonClass: "", // você está usando apenas disabled
+  inactiveButtonClass: "", 
   inputErrorClass: "form__input_type_error",
   errorClass: "form__input-error_active",
 };
+
 const cardsContainer = document.querySelector(".cards");
 
 const initialCards = [
@@ -44,132 +49,100 @@ const initialCards = [
   },
 ];
 
-function onEsc(e) {
-  if (e.key === "Escape" && overlay.classList.contains("overlay_active")) {
-    closeOverlay();
-  }
-}
-
-function onOverlayClick(e) {
-  if (
-    e.target === overlay ||
-    e.target.closest(".fullscreen__delete-button") ||
-    e.target.closest(".form__close-button")
-  ) {
-    closeOverlay();
-  }
-}
-
-function openOverlay() {
-  overlay.classList.add("overlay_active");
-  document.addEventListener("keydown", onEsc);
-  overlay.addEventListener("click", onOverlayClick);
-}
-
-function closeOverlay() {
-  overlay.classList.remove("overlay_active");
-  overlay.innerHTML = "";
-  document.removeEventListener("keydown", onEsc);
-  overlay.removeEventListener("click", onOverlayClick);
-}
-
-function showFullscreenImage() {
-  document.querySelector(".cards").addEventListener("click", (e) => {
-    if (e.target.closest(".card__image")) {
-      const clickedCard = e.target.closest(".card");
-      const image = clickedCard.querySelector(".card__image").src;
-      const name = clickedCard.querySelector(
-        ".card__text-paragraph"
-      ).textContent;
-
-      const fullscreenImage = document
-        .querySelector(".fullscreen__template")
-        .content.cloneNode(true);
-
-      fullscreenImage.querySelector(".fullscreen__image").src = image;
-      fullscreenImage.querySelector(".fullscreen__image").alt = name;
-      fullscreenImage.querySelector(".fullscreen__name").textContent = name;
-
-      overlay.innerHTML = "";
-      overlay.append(fullscreenImage);
-      openOverlay();
+function handleCardDeleteByName(name) {
+  for (let i = 0; i < initialCards.length; i++) {
+    if (initialCards[i].name === name) {
+      initialCards.splice(i, 1);
+      break;
     }
+  }
+}
+
+function makeCard(cardData) {
+  const card = new Card(cardData, ".card__template", handleCardDeleteByName);
+  return card.getElement();
+}
+
+function renderInitialCards() {
+  if (initialCards.length === 0) {
+    cardsContainer.innerHTML = `<h2 class="cards__empty">Não há cards</h2>`;
+    return;
+  }
+
+  initialCards.forEach((data) => {
+    const cardElement = makeCard(data);
+    cardsContainer.append(cardElement);
   });
+}
+
+function prependNewCard(data) {
+  initialCards.unshift(data);
+  cardsContainer.prepend(makeCard(data));
 }
 
 function activateForm(e) {
   if (e.target.closest(".user__name-edit")) {
-    const userForm = document
+    const node = document
       .querySelector(".form__template")
       .content.cloneNode(true);
-    const formElement = userForm.querySelector(".form");
+    const form = node.querySelector(".form");
 
-    formElement.addEventListener("submit", handleProfileFormSubmit);
+    node.querySelector(".form__title").textContent = "Editar perfil";
+    form.querySelector(".form__input-name").minLength = 2;
+    form.querySelector(".form__input-name").maxLength = 40;
+    form.querySelector(".form__input-type").minLength = 2;
+    form.querySelector(".form__input-type").maxLength = 200;
+    form.setAttribute("name", "userForm");
 
-    formElement.querySelector(".form__input-name").minlength = 2;
-    formElement.querySelector(".form__input-name").maxlength = 40;
-    formElement.querySelector(".form__input-type").minlength = 2;
-    formElement.querySelector(".form__input-type").maxlength = 200;
-    formElement.setAttribute("name", "userForm");
+    form.addEventListener("submit", handleProfileFormSubmit);
 
-    overlay.innerHTML = "";
-    overlay.append(userForm);
-    setEventListeners(formElement, validationConfig);
+    const validator = new FormValidator(validationConfig, form);
+    validator.enableValidation();
 
-    openOverlay();
-  } else if (e.target.closest(".user__add-button")) {
-    const newCardForm = document
+    openOverlay(node);
+    return;
+  }
+
+  if (e.target.closest(".user__add-button")) {
+    const node = document
       .querySelector(".form__template")
       .content.cloneNode(true);
+    const form = node.querySelector(".form");
 
-    newCardForm.querySelector(".form__title").textContent = "Novo Lugar";
-    newCardForm.querySelector(".form__input-name").placeholder = "Título";
-    newCardForm.querySelector(".form__input-type").placeholder = "Imagem";
+    node.querySelector(".form__title").textContent = "Novo Lugar";
+    form.querySelector(".form__input-name").placeholder = "Título";
+    const urlInput = form.querySelector(".form__input-type");
+    urlInput.placeholder = "Imagem";
+    urlInput.type = "url";
+    form.querySelector(".form__input-name").minLength = 2;
+    form.querySelector(".form__input-name").maxLength = 30;
+    form.setAttribute("name", "cardForm");
 
-    const formElement = newCardForm.querySelector(".form");
-    formElement.querySelector(".form__input-type").type = "url";
-    formElement.querySelector(".form__input-name").minlength = 2;
-    formElement.querySelector(".form__input-name").maxlength = 30;
-    formElement.setAttribute("name", "cardForm");
+    form.addEventListener("submit", handleNewCardFormSubmit);
 
-    formElement.addEventListener("submit", handleNewCardFormSubmit);
+    const validator = new FormValidator(validationConfig, form);
+    validator.enableValidation();
 
-    overlay.innerHTML = "";
-    overlay.append(newCardForm);
-    setEventListeners(formElement, validationConfig);
-
-    openOverlay();
+    openOverlay(node);
   }
 }
 
 function closeForm() {
-  const formElement = overlay.querySelector(validationConfig.formSelector);
-  if (formElement) {
-    resetValidation(formElement, validationConfig);
-  }
   closeOverlay();
 }
 
 function handleProfileFormSubmit(e) {
   e.preventDefault();
+  const form = e.currentTarget;
+  const inputName = form.querySelector(".form__input-name");
+  const inputType = form.querySelector(".form__input-type");
+  const nameEl = document.querySelector(".user__name-paragraph");
+  const typeEl = document.querySelector(".user__type-paragraph");
 
-  const inputName = document.querySelector(".form__input-name");
-  const inputType = document.querySelector(".form__input-type");
-  const currentUserName = document.querySelector(".user__name-paragraph");
-  const currentUserType = document.querySelector(".user__type-paragraph");
+  nameEl.textContent = inputName.value || nameEl.textContent;
+  typeEl.textContent = inputType.value || typeEl.textContent;
 
-  if (!inputName.value) {
-    inputName.value = currentUserName.innerHTML;
-  }
-
-  if (!inputType.value) {
-    inputType.value = currentUserType.innerHTML;
-  }
-
-  currentUserName.textContent = inputName.value;
-  currentUserType.textContent = inputType.value;
-
-  closeForm();
+  closeOverlay();
 }
 
 function handleNewCardFormSubmit(e) {
@@ -185,91 +158,13 @@ function handleNewCardFormSubmit(e) {
     link: inputImage,
   };
 
-  initialCards.unshift(newCard);
-
+  prependNewCard(newCard);
   closeForm();
-  renderCards();
-}
-
-function createCards(name, link) {
-  const templateCard = document.querySelector(".card__template").content;
-
-  const cardElement = templateCard.cloneNode(true);
-
-  cardElement.querySelector(".card__image").src = link;
-  cardElement.querySelector(".card__image").alt = name;
-  cardElement.querySelector(".card__text-paragraph").textContent = name;
-
-  return cardElement;
-}
-
-function renderCards() {
-  const cardsContainer = document.querySelector(".cards");
-
-  if (cardsContainer.children.length === 0) {
-    initialCards.forEach((card) => {
-      const cardElement = createCards(card.name, card.link);
-      cardsContainer.append(cardElement);
-    });
-  } else {
-    const card = initialCards[0];
-    const cardElement = createCards(card.name, card.link);
-    cardsContainer.prepend(cardElement);
-    likeButtonsListener();
-  }
-}
-
-function removeCards() {
-  document.querySelector(".cards").addEventListener("click", (e) => {
-    if (e.target.closest(".card__delete-button")) {
-      const cardElement = e.target.closest(".card");
-      const cardName = cardElement.querySelector(
-        ".card__text-paragraph"
-      ).textContent;
-
-      const index = initialCards.findIndex((card) => card.name === cardName);
-
-      if (index !== -1) {
-        initialCards.splice(index, 1);
-      }
-
-      cardElement.remove();
-    }
-  });
-}
-
-function likeButtonsListener() {
-  const toggleButtons = document.querySelectorAll(".card__like");
-
-  toggleButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      btn.classList.toggle("card__like-button-heart_active");
-    });
-  });
-}
-
-function renderFooter() {
-  const footerParagraph = document.querySelector(".footer__text");
-  const d = new Date();
-  const currentYear = d.getFullYear();
-
-  footerParagraph.innerHTML = `&copy; ${currentYear} Around The U.S.`;
-}
-
-function handleEmptyCards() {
-  if (initialCards.length > 0) {
-    renderCards();
-  } else {
-    cardsContainer.innerHTML = `<h2 class="cards__empty">Não há cards</h2>`;
-  }
 }
 
 editUserButton.addEventListener("click", activateForm);
 addPlace.addEventListener("click", activateForm);
 
+renderInitialCards();
+enableFullscreenOn(cardsContainer);
 renderFooter();
-handleEmptyCards();
-showFullscreenImage();
-likeButtonsListener();
-enableValidation(validationConfig);
-removeCards();
