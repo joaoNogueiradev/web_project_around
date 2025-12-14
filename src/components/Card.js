@@ -7,6 +7,7 @@ export default class Card {
   ) {
     this._name = name;
     this._link = link;
+    this._isLiked = false;
     this._templateSelector = templateSelector;
     this._handleDeleteCallback = handleDeleteCallback;
     this._handleImageClick = handleImageClick;
@@ -57,6 +58,8 @@ export default class Card {
   _toggleLike() {
     const likeBtn = this._element.querySelector(".card__like");
     likeBtn.classList.toggle("card__like-button-heart_active");
+    this._isLiked = !this._isLiked;
+    console.log(this);
   }
 
   _deleteCard() {
