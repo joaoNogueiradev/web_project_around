@@ -1,8 +1,10 @@
 export const editUserButton = document.querySelector(".user__name-edit");
 export const addPlaceButton = document.querySelector(".user__add-button");
+export const userPic = document.querySelector(".user__pic");
 export const cardsContainerSelector = ".cards";
 export const cardTemplateSelector = ".card__template";
 export const fullscreenTemplateSelector = ".fullscreen__template";
+export const confirmationPopupSelector = ".confirmation__template";
 
 export const userSelectors = {
   nameSelector: ".user__name-paragraph",

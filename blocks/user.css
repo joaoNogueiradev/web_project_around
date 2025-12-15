@@ -11,8 +11,8 @@
   width: 120px;
   height: 120px;
   border-radius: 100%;
-  background-color: blue;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .user__text {
@@ -72,7 +72,6 @@
   width: 100%;
   padding: 17px 0;
   background-color: black;
-  /* color: white; */
   text-align: center;
   border: 1px solid white;
 }

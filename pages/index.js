@@ -1,8 +1,5 @@
-// Parei no item 5
-
 import Card from "../src/components/Card.js";
 import Section from "../src/components/Section.js";
-import Popup from "../src/components/Popup.js";
 import PopupWithForm from "../src/components/PopupWithForm.js";
 import PopupWithImage from "../src/components/PopupWithImage.js";
 import renderFooter from "../src/utils/utils.js";
@@ -18,12 +15,14 @@ import {
   userSelectors,
   validationConfig,
   overlaySelector,
+  userPic,
 } from "../src/utils/constants.js";
+import PopupWithConfirmation from "../src/components/PopupWithConfirmation.js";
 
 const apiConnection = new API(
   "https://around-api.pt-br.tripleten-services.com/v1",
   {
-    authorization: "cf9670f7-9488-45ef-872d-0d5e933a6564",
+    authorization: "de8e7ffa-aeef-4255-b868-e53b98b41157",
   }
 );
 
@@ -31,12 +30,17 @@ const cardsSection = new Section(
   {
     items: [],
     renderer: (item) => {
-      return new Card(
+      const card = new Card(
         item,
         cardTemplateSelector,
-        (name) => console.log("Deletar:", name),
+        (cardInstance) => {
+          cardToDelete = cardInstance;
+          confirmationPopup.open();
+        },
         (data) => fullscreenPopup.open(data)
-      ).getElement();
+      );
+
+      return card.getElement();
     },
   },
   cardsContainerSelector
@@ -53,12 +57,24 @@ apiConnection
     console.log(err);
   });
 
+let cardToDelete = null;
+
 const fullscreenPopup = new PopupWithImage(
   overlaySelector,
   fullscreenTemplateSelector
 );
 
-const overlay = new Popup(overlaySelector);
+const confirmationPopup = new PopupWithConfirmation(overlaySelector, () => {
+  if (!cardToDelete) return;
+
+  apiConnection
+    .removeCard(cardToDelete._id)
+    .then(() => {
+      cardToDelete.remove();
+      cardToDelete = null;
+    })
+    .catch((err) => console.log(err));
+});
 
 function createPopupForm(formConfig, handleSubmit) {
   const popup = new PopupWithForm(
@@ -161,5 +177,7 @@ addPlaceButton.addEventListener("click", () => {
     }
   );
 });
+
+userPic.addEventListener("click", () => {});
 
 renderFooter();

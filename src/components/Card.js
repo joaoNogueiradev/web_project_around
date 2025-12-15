@@ -1,16 +1,19 @@
 export default class Card {
   constructor(
-    { name, link },
+    { _id, name, link, isLiked },
     templateSelector,
     handleDeleteCallback,
-    handleImageClick
+    handleImageClick,
+    handleLike
   ) {
+    this._id = _id;
     this._name = name;
     this._link = link;
-    this._isLiked = false;
+    this._isLiked = isLiked;
     this._templateSelector = templateSelector;
     this._handleDeleteCallback = handleDeleteCallback;
     this._handleImageClick = handleImageClick;
+    this._handleLike = handleLike;
 
     this._element = null;
     this._imageElement = null;
@@ -37,6 +40,10 @@ export default class Card {
 
     cardEl.querySelector(".card__text-paragraph").textContent = this._name;
 
+    if (this._isLiked) {
+      likeBtn.classList.add("card__like-button-heart_active");
+    }
+
     return cardEl;
   }
 
@@ -59,13 +66,16 @@ export default class Card {
     const likeBtn = this._element.querySelector(".card__like");
     likeBtn.classList.toggle("card__like-button-heart_active");
     this._isLiked = !this._isLiked;
-    console.log(this);
+    console.log(this._isLiked);
   }
 
   _deleteCard() {
     if (typeof this._handleDeleteCallback === "function") {
-      this._handleDeleteCallback(this._name);
+      this._handleDeleteCallback(this);
     }
+  }
+
+  remove() {
     this._element.remove();
     this._element = null;
   }
