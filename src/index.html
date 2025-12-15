@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Site para que possa ver os locais ao redor dos Estados Unidos!"
+    />
+    <meta name="author" content="João Nogueira" />
+    <meta name="keywords" content="Galeria, Estados, paisagens" />
+    <title>Ao redor dos E.U.A.</title>
+    <link rel="stylesheet" href="./pages/index.css" />
+    <link rel="icon" href="./images/heart.png" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="overlay"></div>
+
+      <header class="header">
+        <img
+          class="header__logo"
+          src="./images/svg-logo.svg"
+          alt="Around the US logo branca"
+        />
+      </header>
+
+      <main class="content">
+        <section class="user">
+          <div class="user__pic-wrapper">
+            <img class="user__pic" src="" alt="User picture" />
+          </div>
+
+          <ul class="user__text">
+            <li class="user__name">
+              <p class="user__name-paragraph"></p>
+              <button class="user__name-edit">
+                <img
+                  class="user__name-edit-image"
+                  src="./images/pencil.png"
+                  alt="pencil vector"
+                />
+              </button>
+            </li>
+            <li class="user__type">
+              <p class="user__type-paragraph"></p>
+            </li>
+          </ul>
+          <button class="user__add-button">
+            <img
+              class="user__add-button-image"
+              src="./images/plus-compressed.png"
+              alt="Sinal de Mais branco"
+            />
+          </button>
+        </section>
+        <section class="cards"></section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer__content">
+          <p class="footer__text">&copy;</p>
+        </div>
+      </footer>
+    </div>
+
+    <template class="card__template">
+      <div class="card">
+        <img
+          class="card__image"
+          src="./images/yosemite.jpg"
+          alt="Imagem da Paisagem de Yosemite"
+        />
+        <button class="card__delete-button">
+          <img
+            class="card__delete-button-icon"
+            src="./images/trash.png"
+            alt="trash Icon"
+          />
+        </button>
+        <div class="card__text">
+          <p class="card__text-paragraph">Vale do Yosemite</p>
+          <button class="card__like">
+            <img
+              class="card__like-image"
+              src="./images/heart.png"
+              alt="botão de like na foto"
+            />
+          </button>
+        </div>
+      </div>
+    </template>
+    <template class="form__template">
+      <form class="form" novalidate>
+        <img
+          class="form__close-button"
+          src="./images/plus-compressed.png"
+          alt="Botão para fechar o formulário de editar perfil"
+        />
+        <h2 class="form__title">Editar perfil</h2>
+
+        <input
+          id="nome"
+          class="form__input form__input-name"
+          type="text"
+          placeholder="Nome"
+          minlength="2"
+          maxlength="40"
+          required
+        />
+        <span class="form__input-error nome-error"></span>
+
+        <input
+          id="sobre"
+          class="form__input form__input-type"
+          type="text"
+          placeholder="Cargo"
+          minlength="2"
+          maxlength="200"
+          required
+        />
+        <span class="form__input-error sobre-error"></span>
+
+        <button class="form__submit-button" type="submit" disabled>
+          Salvar
+        </button>
+      </form>
+    </template>
+    <template class="fullscreen__template">
+      <div class="fullscreen__container">
+        <button class="fullscreen__delete-button">
+          <img
+            class="fullscreen__delete-button-image"
+            src="./images/plus-compressed.png"
+            alt="Botão para fechar o formulário de editar perfil"
+          />
+        </button>
+        <img src="" alt="" class="fullscreen__image" />
+        <p class="fullscreen__name"></p>
+      </div>
+    </template>
+    <template class="confirmation__template">
+      <form class="form">
+        <img
+          class="form__close-button"
+          src="./images/plus-compressed.png"
+          alt="Botão para fechar o formulário de editar perfil"
+        />
+        <h2 class="form__title">Tem certeza?</h2>
+
+        <button class="form__submit-button" type="submit">Sim</button>
+      </form>
+    </template>
+
+    <script type="module" src="./pages/index.js"></script>
+  </body>
+</html>
