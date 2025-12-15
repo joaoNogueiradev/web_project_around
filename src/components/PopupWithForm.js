@@ -95,16 +95,14 @@ export default class PopupWithForm extends Popup {
     this._form.addEventListener("submit", (e) => {
       e.preventDefault();
       if (typeof this._handleSubmit === "function") {
-        // Ativa loading antes da requisição
         this.renderLoading(true);
 
-        // Espera o handleSubmit retornar uma Promise
         const result = this._handleSubmit(this._getInputValues());
         if (result && typeof result.then === "function") {
           result
-            .then(() => this.close()) // fecha o popup quando a requisição termina
-            .catch(() => {}) // em caso de erro, deixa o popup aberto
-            .finally(() => this.renderLoading(false)); // sempre volta o texto original
+            .then(() => this.close())
+            .catch(() => {})
+            .finally(() => this.renderLoading(false));
         } else {
           this.close();
           this.renderLoading(false);
