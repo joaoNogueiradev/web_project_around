@@ -27,7 +27,7 @@ export default class API {
   }
 
   editUserInfo(newName, newAbout) {
-    return fetch(`${this.basUrl}/users/me`, {
+    return fetch(`${this.baseUrl}/users/me`, {
       method: "PATCH",
       headers: { ...this.headers, "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -36,7 +36,7 @@ export default class API {
       }),
     }).then((res) => {
       if (res.ok) {
-        return;
+        return res.json();
       }
       return Promise.reject(`Erro: ${res.status}`);
     });
@@ -70,7 +70,43 @@ export default class API {
     });
   }
 
-  onLike() {}
+  onLike(cardId) {
+    return fetch(`${this.baseUrl}/cards/${cardId}/likes`, {
+      method: "PUT",
+      headers: this.headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Erro: ${res.status}`);
+    });
+  }
 
-  onDeslike() {}
+  onDeslike(cardId) {
+    return fetch(`${this.baseUrl}/cards/${cardId}/likes`, {
+      method: "DELETE",
+      headers: this.headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Erro: ${res.status}`);
+    });
+  }
+
+  updateAvatar(avatar) {
+    return fetch(`${this.baseUrl}/users/me/avatar`, {
+      method: "PATCH",
+      headers: {
+        ...this.headers,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ avatar }),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Erro: ${res.status}`);
+    });
+  }
 }

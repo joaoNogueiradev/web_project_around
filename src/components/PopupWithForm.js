@@ -27,6 +27,11 @@ export default class PopupWithForm extends Popup {
     this._form = node.querySelector(".form");
     if (!this._form) return;
 
+    this._submitButton = this._form.querySelector(".form__submit-button");
+    this._submitButtonText = this._submitButton
+      ? this._submitButton.textContent
+      : "";
+
     if (this._formConfig.title) {
       this._form.querySelector(".form__title").textContent =
         this._formConfig.title;
@@ -36,10 +41,26 @@ export default class PopupWithForm extends Popup {
       this._formConfig.fields.forEach((field) => {
         const input = this._form.querySelector(field.selector);
         if (!input) return;
+
+        input.style.display = "block";
+        input.required = true;
+
         if (field.placeholder) input.placeholder = field.placeholder;
         if (field.type) input.type = field.type;
         if (field.min) input.minLength = field.min;
         if (field.max) input.maxLength = field.max;
+        if (field.value !== undefined) input.value = field.value;
+      });
+    }
+
+    if (Array.isArray(this._formConfig.hideFields)) {
+      this._formConfig.hideFields.forEach((selector) => {
+        const input = this._form.querySelector(selector);
+        if (!input) return;
+
+        input.style.display = "none";
+        input.required = false;
+        input.value = "";
       });
     }
 
@@ -51,7 +72,6 @@ export default class PopupWithForm extends Popup {
     }
 
     super.open();
-
     this.setEventListeners();
   }
 
@@ -62,6 +82,12 @@ export default class PopupWithForm extends Popup {
     });
     return values;
   }
+  renderLoading(isLoading, loadingText = "Salvando...") {
+    if (!this._submitButton) return;
+    this._submitButton.textContent = isLoading
+      ? loadingText
+      : this._submitButtonText;
+  }
 
   setEventListeners() {
     if (!this._form) return;
@@ -69,9 +95,21 @@ export default class PopupWithForm extends Popup {
     this._form.addEventListener("submit", (e) => {
       e.preventDefault();
       if (typeof this._handleSubmit === "function") {
-        this._handleSubmit(this._getInputValues());
+        // Ativa loading antes da requisição
+        this.renderLoading(true);
+
+        // Espera o handleSubmit retornar uma Promise
+        const result = this._handleSubmit(this._getInputValues());
+        if (result && typeof result.then === "function") {
+          result
+            .then(() => this.close()) // fecha o popup quando a requisição termina
+            .catch(() => {}) // em caso de erro, deixa o popup aberto
+            .finally(() => this.renderLoading(false)); // sempre volta o texto original
+        } else {
+          this.close();
+          this.renderLoading(false);
+        }
       }
-      this.close();
     });
 
     const closeBtn = this._form.querySelector(".form__close-button");

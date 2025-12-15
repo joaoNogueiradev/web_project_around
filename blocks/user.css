@@ -8,11 +8,38 @@
 }
 
 .user__pic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.user__pic-wrapper {
+  position: relative;
   width: 120px;
   height: 120px;
-  border-radius: 100%;
-  object-fit: cover;
+  border-radius: 50%;
+  overflow: hidden;
   cursor: pointer;
+}
+
+.user__pic-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-color: rgba(0, 0, 0, 0.5);
+  background-image: url("/images/edit-icon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 26px;
+
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.user__pic-wrapper:hover::after {
+  opacity: 1;
 }
 
 .user__text {
@@ -94,7 +121,7 @@
   .user__pic {
     max-width: 120px;
     min-width: 120px;
-    background-color: blue;
+    /* background-color: blue; */
   }
   .user__text {
     align-items: flex-start;
@@ -170,7 +197,7 @@
   .user__pic {
     width: 100%;
     max-width: 120px;
-    background-color: blue;
+    background-color: white;
   }
   .user__text {
     align-items: flex-start;

@@ -15,7 +15,7 @@ import {
   userSelectors,
   validationConfig,
   overlaySelector,
-  userPic,
+  userPicWrapper,
 } from "../src/utils/constants.js";
 import PopupWithConfirmation from "../src/components/PopupWithConfirmation.js";
 
@@ -37,7 +37,18 @@ const cardsSection = new Section(
           cardToDelete = cardInstance;
           confirmationPopup.open();
         },
-        (data) => fullscreenPopup.open(data)
+        (data) => fullscreenPopup.open(data),
+        (cardInstance) => {
+          const request = cardInstance._isLiked
+            ? apiConnection.onDeslike(cardInstance._id)
+            : apiConnection.onLike(cardInstance._id);
+
+          request
+            .then((updatedCard) => {
+              cardInstance.setLikeState(updatedCard.isLiked);
+            })
+            .catch((err) => console.log(err));
+        }
       );
 
       return card.getElement();
@@ -49,7 +60,6 @@ const cardsSection = new Section(
 apiConnection
   .getInitialCards()
   .then((cards) => {
-    console.log(cards);
     cardsSection.setItems(cards);
     cardsSection.renderItems();
   })
@@ -126,13 +136,14 @@ editUserButton.addEventListener("click", () => {
       ],
     },
     (formValues) => {
-      const { nome, sobre } = formValues;
-      apiConnection
-        .editUserInfo(nome, sobre)
+      const { nome: name, sobre: about } = formValues;
+      return apiConnection
+        .editUserInfo(name, about)
         .then((result) => {
           userInfo.setUserInfo({
             name: result.name,
             about: result.about,
+            pic: result.avatar,
           });
         })
         .catch((err) => {
@@ -159,7 +170,7 @@ addPlaceButton.addEventListener("click", () => {
     (formValues) => {
       const { nome: name, sobre: link } = formValues;
 
-      apiConnection
+      return apiConnection
         .addCard(name, link)
         .then((cardData) => {
           const cardElement = new Card(
@@ -178,6 +189,34 @@ addPlaceButton.addEventListener("click", () => {
   );
 });
 
-userPic.addEventListener("click", () => {});
+userPicWrapper.addEventListener("click", () => {
+  createPopupForm(
+    {
+      title: "Alterar foto de perfil",
+      fields: [
+        {
+          selector: ".form__input-name",
+          placeholder: "Link da imagem",
+          type: "url",
+          min: 2,
+          max: 400,
+        },
+      ],
+      hideFields: [".form__input-type"],
+    },
+    (formValues) => {
+      const avatarUrl = formValues.nome;
+
+      return apiConnection
+        .updateAvatar(avatarUrl)
+        .then((result) => {
+          userInfo.setUserInfo({
+            pic: result.avatar,
+          });
+        })
+        .catch((err) => console.log(err));
+    }
+  );
+});
 
 renderFooter();

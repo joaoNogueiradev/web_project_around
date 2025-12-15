@@ -21,4 +21,6 @@ export const validationConfig = {
   errorClass: "form__input-error_active",
 };
 
+export const userPicWrapper = document.querySelector(".user__pic-wrapper");
+
 export const overlaySelector = ".overlay";

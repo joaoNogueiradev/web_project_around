@@ -26,7 +26,6 @@ export default class Card {
     }
     return this._element;
   }
-
   _getView() {
     const fragment = document
       .querySelector(this._templateSelector)
@@ -39,6 +38,8 @@ export default class Card {
     this._imageElement.alt = this._name;
 
     cardEl.querySelector(".card__text-paragraph").textContent = this._name;
+
+    const likeBtn = cardEl.querySelector(".card__like");
 
     if (this._isLiked) {
       likeBtn.classList.add("card__like-button-heart_active");
@@ -57,9 +58,25 @@ export default class Card {
       }
     });
 
-    likeBtn.addEventListener("click", () => this._toggleLike());
+    likeBtn.addEventListener("click", () => {
+      if (typeof this._handleLike === "function") {
+        this._handleLike(this);
+      }
+    });
 
     deleteBtn.addEventListener("click", () => this._deleteCard());
+  }
+
+  setLikeState(isLiked) {
+    this._isLiked = isLiked;
+
+    const likeBtn = this._element.querySelector(".card__like");
+
+    if (isLiked) {
+      likeBtn.classList.add("card__like-button-heart_active");
+    } else {
+      likeBtn.classList.remove("card__like-button-heart_active");
+    }
   }
 
   _toggleLike() {
