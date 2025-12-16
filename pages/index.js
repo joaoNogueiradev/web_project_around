@@ -40,7 +40,7 @@ const cardsSection = new Section(
         (data) => fullscreenPopup.open(data),
         (cardInstance) => {
           const request = cardInstance._isLiked
-            ? apiConnection.onDeslike(cardInstance._id)
+            ? apiConnection.onDislike(cardInstance._id)
             : apiConnection.onLike(cardInstance._id);
 
           request
@@ -173,14 +173,7 @@ addPlaceButton.addEventListener("click", () => {
       return apiConnection
         .addCard(name, link)
         .then((cardData) => {
-          const cardElement = new Card(
-            { name: cardData.name, link: cardData.link },
-            cardTemplateSelector,
-            (name) => console.log("Deletar:", name),
-            (data) => fullscreenPopup.open(data)
-          ).getElement();
-
-          cardsSection.addItem(cardElement);
+          cardsSection.addItem(cardData);
         })
         .catch((err) => {
           console.log(err);
